@@ -6,5 +6,7 @@ namespace Deal_Management_System.Data
     public class AppDBContext(DbContextOptions<AppDBContext> options):DbContext(options)
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Hotel> Hotels { get; set; }
+        public DbSet<Deal> Deals { get; set; }
     }
 }
