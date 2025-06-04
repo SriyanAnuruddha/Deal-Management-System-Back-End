@@ -6,5 +6,9 @@ namespace Deal_Management_System.Services
     public interface IHotelService
     {
         Task<Hotel?> AddHotel(HotelDTO hotelDTO);
+
+        Task<bool> RemoveHotel(Guid id);
+
+        Task<List<Hotel>> GetAllHotels();
     }
 }

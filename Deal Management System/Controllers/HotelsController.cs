@@ -1,6 +1,7 @@
 ﻿using Deal_Management_System.DTOs;
 using Deal_Management_System.Models;
 using Deal_Management_System.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,12 +12,46 @@ namespace Deal_Management_System.Controllers
     public class HotelsController(IHotelService hotelService) : ControllerBase
     {
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
-        public IActionResult GetAllHotels(HotelDTO hotelDTO)
+        public async Task<ActionResult<Hotel>> AddHotel(HotelDTO hotelDTO)
         {
-            hotelService.AddHotel(hotelDTO);
+            var response = await hotelService.AddHotel(hotelDTO);
 
-            return Ok("Hotel is added!");
+            if (response != null)
+            {
+                return Ok(response);
+            }
+            return BadRequest("Can't add hotel!");
+
         }
+
+        [Authorize(Roles = "admin")]
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> RemoveHotel(Guid id)
+        {
+            var response = await hotelService.RemoveHotel(id);
+
+            if (response is true)
+            {
+                return Ok("hotel removed successfully!");
+            }
+            return BadRequest("invalid hotel id!");
+        }
+
+
+        [HttpGet()]
+        public async Task<ActionResult> GetAllHotels()
+        {
+            List<Hotel> hotels = await hotelService.GetAllHotels();
+
+            if(hotels.Count == 0)
+            {
+                return NotFound("No Hotels Found!");
+            }
+
+            return Ok(hotels);
+        }
+
     }
 }

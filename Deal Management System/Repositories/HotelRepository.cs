@@ -1,6 +1,7 @@
 ﻿using Deal_Management_System.Data;
 using Deal_Management_System.DTOs;
 using Deal_Management_System.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Deal_Management_System.Repositories
 {
@@ -19,10 +20,25 @@ namespace Deal_Management_System.Repositories
             return hotel;
         }
 
-        public List<Hotel> GetAllHotels()
+        public async Task<bool> DeleteHotel(Guid id)
         {
-            throw new NotImplementedException();
+            var hotel = await context.Hotels.FirstOrDefaultAsync(h => h.Id == id);
+
+            if(hotel is null)
+            {
+                return false;
+            }
+
+            context.Hotels.Remove(hotel);
+            await context.SaveChangesAsync();
+            return true;
         }
 
+        public async Task<List<Hotel>> GetAllHotels()
+        {
+            List<Hotel> hotels = await context.Hotels.ToListAsync();
+
+            return hotels;
+        }
     }
 }

@@ -5,9 +5,8 @@ namespace Deal_Management_System.Repositories
 {
     public interface IHotelRepository
     {
-        List<Hotel> GetAllHotels();
+        Task<List<Hotel>> GetAllHotels();
         Task<Hotel> CreateHotel(HotelDTO hotelDTO);
-
-
+        Task<bool> DeleteHotel(Guid id);
     }
 }
