@@ -10,5 +10,7 @@ namespace Deal_Management_System.Services
         Task<bool> RemoveHotel(Guid id);
 
         Task<List<Hotel>> GetAllHotels();
+
+        Task<Hotel?> UpdateHotelDetails(Guid id,HotelDTO hotelDTO);
     }
 }

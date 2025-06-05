@@ -21,5 +21,9 @@ namespace Deal_Management_System.Services
             return await hotelRepository.DeleteHotel(id);
         }
 
+        public async Task<Hotel?> UpdateHotelDetails(Guid id,HotelDTO hotelDTO)
+        {
+            return await hotelRepository.UpdateHotelDetails(id, hotelDTO);
+        }
     }
 }

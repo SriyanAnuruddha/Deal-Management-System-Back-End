@@ -8,5 +8,6 @@ namespace Deal_Management_System.Repositories
         Task<List<Hotel>> GetAllHotels();
         Task<Hotel> CreateHotel(HotelDTO hotelDTO);
         Task<bool> DeleteHotel(Guid id);
+        Task<Hotel?> UpdateHotelDetails(Guid id,HotelDTO hotelDTO);
     }
 }

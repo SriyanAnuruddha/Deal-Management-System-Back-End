@@ -53,5 +53,20 @@ namespace Deal_Management_System.Controllers
             return Ok(hotels);
         }
 
+
+        [Authorize(Roles = "admin")]
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateHotelDetails(Guid id,[FromBody] HotelDTO hotelDTO)
+        {
+            var result = await hotelService.UpdateHotelDetails(id, hotelDTO);
+
+            if(result is null)
+            {
+                return NotFound("Hotel id is invalid!");
+            }
+
+            return Ok(result);
+        }
+
     }
 }

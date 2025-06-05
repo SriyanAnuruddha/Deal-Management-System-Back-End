@@ -40,5 +40,22 @@ namespace Deal_Management_System.Repositories
 
             return hotels;
         }
+
+        public async Task<Hotel?> UpdateHotelDetails(Guid id,HotelDTO hotelDTO)
+        {
+            var hotel = await context.Hotels.SingleOrDefaultAsync(h => h.Id == id);
+
+            if(hotel is null)
+            {
+                return null;
+            }
+
+            hotel.Name = hotelDTO.Name;
+            hotel.Rate = hotelDTO.Rate;
+            hotel.Amenities = hotelDTO.Amenities;
+
+            await context.SaveChangesAsync();
+            return hotel;
+        }
     }
 }
