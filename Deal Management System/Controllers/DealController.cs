@@ -53,6 +53,32 @@ namespace Deal_Management_System.Controllers
             return Ok("Deal is succesfully deleted!");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllDeals()
+        {
+            var result = await dealService.GetAllDeals();
+
+            if (result.Count == 0 )
+            {
+                return NotFound("no deals found!");
+            }
+
+            return Ok(result);
+        }
+
+
+        [HttpGet("{dealId}")]
+        public async Task<IActionResult> GetDealDetails(Guid dealId)
+        {
+            var result = await dealService.GetDealDetails(dealId);
+
+            if (result is null)
+            {
+                return NotFound("deal id is invalid!");
+            }
+
+            return Ok(result);
+        }
 
     }
 

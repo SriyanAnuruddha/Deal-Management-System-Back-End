@@ -24,11 +24,22 @@ namespace Deal_Management_System.Services
             return await dealRepository.DeleteDeal(dealId);
         }
 
+       
+        public async Task<List<Deal>> GetAllDeals()
+        {
+            return await dealRepository.GetAllDeals();
+        }
+
         public string GenerateSlug(string name)
         {
             string slug = Regex.Replace(name.ToLower().Trim(), @"[^a-z0-9\s-]", "")
                                 .Replace(" ", "-");
             return slug;
+        }
+
+        public async Task<Deal?> GetDealDetails(Guid dealId)
+        {
+            return await dealRepository.GetDealDetails(dealId);
         }
     }
 }

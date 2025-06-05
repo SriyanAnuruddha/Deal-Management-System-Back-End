@@ -80,5 +80,16 @@ namespace Deal_Management_System.Repositories
 
             return true;
         }
+
+        public async Task<List<Deal>> GetAllDeals()
+        {
+            return await context.Deals.ToListAsync(); ;
+        }
+
+        public async Task<Deal?> GetDealDetails(Guid dealId)
+        {
+            return await context.Deals.Where(d => d.Id == dealId).Include(d => d.Hotels).FirstOrDefaultAsync();
+               
+        }
     }
 }

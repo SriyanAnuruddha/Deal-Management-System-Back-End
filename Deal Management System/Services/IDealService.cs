@@ -10,5 +10,9 @@ namespace Deal_Management_System.Services
         Task<Deal?> AddMoreHotels(Guid dealId, AddHotelsDTO addHotelsDTO);
 
         Task<bool> DeleteDeal(Guid dealId);
+
+        Task<List<Deal>> GetAllDeals();
+
+        Task<Deal?> GetDealDetails(Guid dealId);
     }
 }
