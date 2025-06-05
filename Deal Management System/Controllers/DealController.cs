@@ -3,6 +3,7 @@ using Deal_Management_System.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace Deal_Management_System.Controllers
 {
@@ -12,16 +13,25 @@ namespace Deal_Management_System.Controllers
     {
         [Authorize(Roles = "admin")]
         [HttpPost]
-        public async Task<IActionResult> AddDeal(CreateDealDTO createDealDTO)
+        public async Task<IActionResult> AddDeal([FromForm] CreateDealDTO createDealDTO,[FromForm] IFormFile videoFile)
         {
-            var result = await dealService.AddDeal(createDealDTO);
-
-            if(result is null)
+          
+            if(videoFile == null || videoFile.Length <= 0)
             {
-                return BadRequest("The deal is already exists!");
+                return BadRequest("Please Insert a video!");
             }
+            else
+            {
+                var result = await dealService.AddDeal(createDealDTO, videoFile);
 
-            return Ok(result);
+                if (result is null)
+                {
+                    return BadRequest("The deal is already exists!");
+                }
+
+                return Ok(result);
+            }
+  
         }
 
 

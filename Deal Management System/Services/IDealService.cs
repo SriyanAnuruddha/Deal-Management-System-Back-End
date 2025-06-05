@@ -5,7 +5,7 @@ namespace Deal_Management_System.Services
 {
     public interface IDealService
     {
-        Task<Deal?> AddDeal(CreateDealDTO createDealDTO);
+        Task<Deal?> AddDeal(CreateDealDTO createDealDTO, IFormFile videoFile);
 
         Task<Deal?> AddMoreHotels(Guid dealId, AddHotelsDTO addHotelsDTO);
 
