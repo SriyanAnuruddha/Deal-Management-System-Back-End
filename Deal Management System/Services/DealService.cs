@@ -37,9 +37,9 @@ namespace Deal_Management_System.Services
             return slug;
         }
 
-        public async Task<Deal?> GetDealDetails(Guid dealId)
+        public async Task<Deal?> GetDealDetails(string slug)
         {
-            return await dealRepository.GetDealDetails(dealId);
+            return await dealRepository.GetDealDetails(slug);
         }
     }
 }

@@ -13,6 +13,6 @@ namespace Deal_Management_System.Services
 
         Task<List<Deal>> GetAllDeals();
 
-        Task<Deal?> GetDealDetails(Guid dealId);
+        Task<Deal?> GetDealDetails(string slug);
     }
 }

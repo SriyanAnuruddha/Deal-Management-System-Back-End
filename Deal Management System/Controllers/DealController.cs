@@ -67,14 +67,14 @@ namespace Deal_Management_System.Controllers
         }
 
 
-        [HttpGet("{dealId}")]
-        public async Task<IActionResult> GetDealDetails(Guid dealId)
+        [HttpGet("{slug}")]
+        public async Task<IActionResult> GetDealDetails(string slug)
         {
-            var result = await dealService.GetDealDetails(dealId);
+            var result = await dealService.GetDealDetails(slug);
 
             if (result is null)
             {
-                return NotFound("deal id is invalid!");
+                return NotFound("can't find the deal details");
             }
 
             return Ok(result);

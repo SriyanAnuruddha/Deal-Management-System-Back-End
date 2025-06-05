@@ -86,9 +86,9 @@ namespace Deal_Management_System.Repositories
             return await context.Deals.ToListAsync(); ;
         }
 
-        public async Task<Deal?> GetDealDetails(Guid dealId)
+        public async Task<Deal?> GetDealDetails(string slug)
         {
-            return await context.Deals.Where(d => d.Id == dealId).Include(d => d.Hotels).FirstOrDefaultAsync();
+            return await context.Deals.Where(d => d.Slug == slug).Include(d => d.Hotels).FirstOrDefaultAsync();
                
         }
     }
