@@ -78,8 +78,6 @@ namespace Deal_Management_System.Controllers
         }
 
 
-
-
         [HttpGet]
         public async Task<IActionResult> GetAllDeals()
         {
