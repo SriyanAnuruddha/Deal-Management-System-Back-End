@@ -18,7 +18,7 @@ namespace Deal_Management_System.Services
             return await dealRepository.CreateDeal(createDealDTO);
         }
 
-        public async Task<Deal?> AddMoreHotels(Guid dealId, AddHotelsDTO addHotelsDTO)
+        public async Task<Deal?> AddMoreHotels(Guid dealId, AssignHotelsDTO addHotelsDTO)
         {
             return await dealRepository.AddHotelsToDeal(dealId,addHotelsDTO.HotelIds);
         }

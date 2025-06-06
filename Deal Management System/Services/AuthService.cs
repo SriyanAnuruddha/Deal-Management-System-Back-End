@@ -45,7 +45,7 @@ namespace Deal_Management_System.Services
 
             user.Username = userDTO.Username;
             user.PasswordHash = hashedPassword;
-            user.Role = userDTO.Role;
+            user.Role = "customer";
 
             context.Users.Add(user);
             await context.SaveChangesAsync();

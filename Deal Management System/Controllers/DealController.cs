@@ -37,7 +37,7 @@ namespace Deal_Management_System.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPost("{dealId}/addhotels")]
-        public async Task<IActionResult> AddHotelsToDeal(Guid dealId,AddHotelsDTO addHotelsDTO)
+        public async Task<IActionResult> AddHotelsToDeal(Guid dealId,AssignHotelsDTO addHotelsDTO)
         {
             var result = await dealService.AddMoreHotels(dealId, addHotelsDTO);
 
@@ -84,7 +84,7 @@ namespace Deal_Management_System.Controllers
 
             if (result is null)
             {
-                return NotFound("can't find the deal details");
+                return NotFound("deal doesn't exists!");
             }
 
             return Ok(result);

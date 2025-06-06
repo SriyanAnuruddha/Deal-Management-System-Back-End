@@ -7,7 +7,7 @@ namespace Deal_Management_System.Services
     {
         Task<Deal?> AddDeal(CreateDealDTO createDealDTO, IFormFile videoFile);
 
-        Task<Deal?> AddMoreHotels(Guid dealId, AddHotelsDTO addHotelsDTO);
+        Task<Deal?> AddMoreHotels(Guid dealId, AssignHotelsDTO addHotelsDTO);
 
         Task<bool> DeleteDeal(Guid dealId);
 
