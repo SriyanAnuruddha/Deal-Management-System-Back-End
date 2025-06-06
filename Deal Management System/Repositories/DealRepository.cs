@@ -91,5 +91,49 @@ namespace Deal_Management_System.Repositories
             return await context.Deals.Where(d => d.Slug == slug).Include(d => d.Hotels).FirstOrDefaultAsync();
                
         }
+
+        public async Task<string?> GetVideoFileName(Guid dealId)
+        {
+            var deal= await context.Deals.FirstOrDefaultAsync(d => d.Id == dealId);
+
+            if (deal != null)
+            {
+                return deal.VideoURL;
+            }
+
+            return null;
+        }
+        
+        public async Task<Deal?> UpdateVideo(Guid dealId,string fileName)
+        {
+            var deal = await context.Deals.SingleOrDefaultAsync(d => d.Id == dealId);
+
+            if(deal != null)
+            {
+                deal.VideoURL = fileName;
+                await context.SaveChangesAsync();
+                return deal;
+            }
+
+            return null;
+
+        }
+
+        public async Task<Deal?> UpdateDealDetails(Guid dealId,string name,string slug,string fileName)
+        {
+            var deal = await context.Deals.SingleOrDefaultAsync(d => d.Id == dealId);
+
+            if (deal != null)
+            {
+                deal.Name = name;
+                deal.Slug = slug;
+                deal.VideoURL = fileName;
+
+                await context.SaveChangesAsync();
+                return deal;
+            }
+
+            return null;
+        }
     }
 }

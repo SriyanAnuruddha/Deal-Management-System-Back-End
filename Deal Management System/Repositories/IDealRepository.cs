@@ -13,5 +13,11 @@ namespace Deal_Management_System.Repositories
         Task<List<Deal>> GetAllDeals();
 
         Task<Deal?> GetDealDetails(string slug);
+
+        Task<string?> GetVideoFileName(Guid dealId);
+
+        Task<Deal?> UpdateVideo(Guid dealId, string fileName);
+
+        Task<Deal?> UpdateDealDetails(Guid dealId, string name, string slug, string fileName);
     }
 }

@@ -21,7 +21,8 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 }).AddFluentValidation(config =>
 {
     config.RegisterValidatorsFromAssembly(typeof(Program).Assembly);
-}); ;
+    config.DisableDataAnnotationsValidation = true;
+});
 
 builder.Services.AddDbContext<AppDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); // connect the database
 

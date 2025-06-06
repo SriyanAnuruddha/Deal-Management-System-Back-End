@@ -25,10 +25,36 @@ namespace Deal_Management_System.Services
 
         public async Task<bool> DeleteDeal(Guid dealId)
         {
+            var videoFileName = await dealRepository.GetVideoFileName(dealId);
+            if(videoFileName != null)
+            {
+                DeleteVideo(videoFileName);
+            }
+
             return await dealRepository.DeleteDeal(dealId);
         }
 
-       
+        public async Task<Deal?> UpdateDealDetails(Guid dealId,UpdateDealDetailsDto dto)
+        {
+            var videoFileName = await dealRepository.GetVideoFileName(dealId);
+            if (videoFileName != null)
+            {
+                DeleteVideo(videoFileName);
+            }
+
+            string newSlug = GenerateSlug(dto.Name);
+            var deal = await dealRepository.UpdateDealDetails(dealId, dto.Name, newSlug, dto.VideoFile.FileName);
+
+            if(deal != null)
+            {
+               await SaveVideo(dto.VideoFile);
+               return deal;
+            }
+
+            return null;
+        }
+
+
         public async Task<List<Deal>> GetAllDeals()
         {
             return await dealRepository.GetAllDeals();
@@ -57,6 +83,17 @@ namespace Deal_Management_System.Services
                 await videoFile.CopyToAsync(stream);
             }
         }
+
+
+        public void DeleteVideo(string fileName)
+        {
+            var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "Videos");
+
+            var fullPath = Path.Combine(uploadFolder, fileName);
+
+            File.Delete(fullPath);
+        }
+
 
         public string GenerateSlug(string name)
         {

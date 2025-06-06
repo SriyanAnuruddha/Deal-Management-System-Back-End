@@ -63,6 +63,23 @@ namespace Deal_Management_System.Controllers
             return Ok("Deal is succesfully deleted!");
         }
 
+        [Authorize(Roles = "admin")]
+        [HttpPut("{dealId}")]
+        public async Task<IActionResult> UpdateDealDetails(Guid dealId,[FromForm] UpdateDealDetailsDto dto)
+        {
+            var result = await dealService.UpdateDealDetails(dealId,dto);
+
+            if (result is null)
+            {
+                return NotFound("Deal Id is invalid!");
+            }
+
+            return Ok(result);
+        }
+
+
+
+
         [HttpGet]
         public async Task<IActionResult> GetAllDeals()
         {
@@ -89,6 +106,8 @@ namespace Deal_Management_System.Controllers
 
             return Ok(result);
         }
+
+
 
     }
 

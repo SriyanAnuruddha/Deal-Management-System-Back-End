@@ -14,5 +14,7 @@ namespace Deal_Management_System.Services
         Task<List<Deal>> GetAllDeals();
 
         Task<Deal?> GetDealDetails(string slug);
+
+        Task<Deal?> UpdateDealDetails(Guid dealId, UpdateDealDetailsDto dto);
     }
 }
