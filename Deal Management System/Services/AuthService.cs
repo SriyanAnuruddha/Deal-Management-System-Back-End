@@ -14,7 +14,7 @@ namespace Deal_Management_System.Services
 {
     public class AuthService(AppDBContext context,IConfiguration configuration) : IAuthService
     {
-        public async Task<string?> LoginAsync(LoginUserDTO userDTO)
+        public async Task<UserResponseDTO?> LoginAsync(UserDTO userDTO)
         {
             var user = await context.Users.FirstOrDefaultAsync(u => u.Username == userDTO.Username);
             if(user is null)
@@ -27,11 +27,19 @@ namespace Deal_Management_System.Services
                 return null;
             }
 
-            return CreateToken(user);
+
+            string token = CreateToken(user);
+
+            return new UserResponseDTO
+            {
+                Username = user.Username,
+                Role = user.Role,
+                Token = token
+            };
 
         }
 
-        public async Task<UserResponseDTO?> RegisterUserAsync(RegisterUserDTO userDTO)
+        public async Task<UserResponseDTO?> RegisterUserAsync(UserDTO userDTO)
         {
             if (await context.Users.AnyAsync(u => u.Username.ToLower() == userDTO.Username.ToLower()))
             {
@@ -50,13 +58,7 @@ namespace Deal_Management_System.Services
             context.Users.Add(user);
             await context.SaveChangesAsync();
 
-            UserResponseDTO responseDTO = new()
-            {
-                Username = user.Username,
-                Role = user.Role
-            };
-
-            return responseDTO;
+            return await LoginAsync(userDTO);
         }
 
         private string CreateToken(User user)

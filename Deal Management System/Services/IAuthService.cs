@@ -5,7 +5,7 @@ namespace Deal_Management_System.Services
 {
     public interface IAuthService
     {
-         Task<UserResponseDTO?> RegisterUserAsync(RegisterUserDTO userDTO);
-         Task<string?> LoginAsync(LoginUserDTO userDTO);
+         Task<UserResponseDTO?> RegisterUserAsync(UserDTO userDTO);
+         Task<UserResponseDTO?> LoginAsync(UserDTO userDTO);
     }
 }

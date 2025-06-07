@@ -19,7 +19,7 @@ namespace Deal_Management_System.Controllers
     {
  
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(RegisterUserDTO userDTO)
+        public async Task<ActionResult<UserResponseDTO>> Register(UserDTO userDTO)
         {
             var user = await authService.RegisterUserAsync(userDTO);
             if (user is null)
@@ -28,12 +28,12 @@ namespace Deal_Management_System.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(LoginUserDTO userDTO)
+        public async Task<ActionResult<UserResponseDTO>> Login(UserDTO userDTO)
         {
-            var token = await authService.LoginAsync(userDTO);
-            if (token is null)
+            var user = await authService.LoginAsync(userDTO);
+            if (user is null)
                 return BadRequest("Invalid username or password!");
-            return Ok(new {token});
+            return Ok(user);
         }
 
         [Authorize]
