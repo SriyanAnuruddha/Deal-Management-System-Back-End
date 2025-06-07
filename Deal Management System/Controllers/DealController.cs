@@ -106,6 +106,18 @@ namespace Deal_Management_System.Controllers
         }
 
 
+        [HttpGet("{dealId}/video")]
+        public async Task<IActionResult> GetVideo(Guid dealId)
+        {
+            var videoStream = await dealService.GetVideo(dealId);
+            if (videoStream == null)
+            {
+                return NotFound("video is not found!");
+            }
+
+            return File(videoStream, "video/mp4");
+        }
+
 
     }
 

@@ -54,6 +54,24 @@ namespace Deal_Management_System.Services
             return null;
         }
 
+        public async Task<FileStream?> GetVideo(Guid dealId)
+        {
+            var videoFileName = await dealRepository.GetVideoFileName(dealId);
+            if (videoFileName == null)
+            {
+                return null;
+            }
+
+            var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "Videos");
+            var fullPath = Path.Combine(uploadFolder, videoFileName);
+
+            if (!File.Exists(fullPath))
+            {
+                return null;
+            }
+
+            return new FileStream(fullPath, FileMode.Open, FileAccess.Read);
+        }
 
         public async Task<List<Deal>> GetAllDeals()
         {

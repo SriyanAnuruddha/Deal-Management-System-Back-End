@@ -16,5 +16,7 @@ namespace Deal_Management_System.Services
         Task<Deal?> GetDealDetails(string slug);
 
         Task<Deal?> UpdateDealDetails(Guid dealId, UpdateDealDetailsDto dto);
+
+        Task<FileStream?> GetVideo(Guid dealId);
     }
 }

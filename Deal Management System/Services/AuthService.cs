@@ -31,7 +31,7 @@ namespace Deal_Management_System.Services
 
         }
 
-        public async Task<User?> RegisterUserAsync(RegisterUserDTO userDTO)
+        public async Task<UserResponseDTO?> RegisterUserAsync(RegisterUserDTO userDTO)
         {
             if (await context.Users.AnyAsync(u => u.Username.ToLower() == userDTO.Username.ToLower()))
             {
@@ -49,7 +49,14 @@ namespace Deal_Management_System.Services
 
             context.Users.Add(user);
             await context.SaveChangesAsync();
-            return user;
+
+            UserResponseDTO responseDTO = new()
+            {
+                Username = user.Username,
+                Role = user.Role
+            };
+
+            return responseDTO;
         }
 
         private string CreateToken(User user)
