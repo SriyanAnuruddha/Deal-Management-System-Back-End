@@ -24,6 +24,16 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     config.DisableDataAnnotationsValidation = true;
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddDbContext<AppDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); // connect the database
 
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -63,5 +73,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseCors("AllowFrontend");
 
 app.Run();

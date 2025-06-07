@@ -33,7 +33,7 @@ namespace Deal_Management_System.Controllers
             var token = await authService.LoginAsync(userDTO);
             if (token is null)
                 return BadRequest("Invalid username or password!");
-            return Ok(token);
+            return Ok(new {token});
         }
 
         [Authorize]
