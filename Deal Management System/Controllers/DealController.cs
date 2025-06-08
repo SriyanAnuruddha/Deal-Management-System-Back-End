@@ -36,7 +36,7 @@ namespace Deal_Management_System.Controllers
 
 
         [Authorize(Roles = "admin")]
-        [HttpPost("{dealId}/addhotels")]
+        [HttpPut("{dealId}/addhotels")]
         public async Task<IActionResult> AddHotelsToDeal(Guid dealId,AssignHotelsDTO addHotelsDTO)
         {
             var result = await dealService.AddMoreHotels(dealId, addHotelsDTO);
