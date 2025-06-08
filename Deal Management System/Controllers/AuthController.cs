@@ -36,19 +36,8 @@ namespace Deal_Management_System.Controllers
             return Ok(user);
         }
 
-        [Authorize]
-        [HttpGet("authonly")]
-        public IActionResult AuthenticatedOnlyEndpoint()
-        {
-            return Ok("You are authenticated!");
-        }
-
-        [Authorize(Roles ="admin")]
-        [HttpGet("admin")]
-        public IActionResult AdminEndPoint()
-        {
-            return Ok("You are admin!");
-        }
+       
+        
 
     }
 }
