@@ -8,14 +8,14 @@ namespace Deal_Management_System.Services
 {
     public class DealService(IDealRepository dealRepository):IDealService
     {
-        public async Task<Deal?> AddDeal(CreateDealDTO createDealDTO,IFormFile videoFile)
+        public async Task<Deal?> AddDeal(CreateDealDTO createDealDTO)
         {
-            createDealDTO.Slug = GenerateSlug(createDealDTO.Name).ToString();
-            createDealDTO.VideoURL = videoFile.FileName;
+            string slug = GenerateSlug(createDealDTO.Name).ToString();
+            string videoFileName = createDealDTO.VideoFile.FileName;
 
-            await SaveVideo(videoFile);
+            await SaveVideo(createDealDTO.VideoFile);
 
-            return await dealRepository.CreateDeal(createDealDTO);
+            return await dealRepository.CreateDeal(createDealDTO.Name,slug, videoFileName,createDealDTO.HotelIDs);
         }
 
         public async Task<Deal?> AddMoreHotels(Guid dealId, AssignHotelsDTO addHotelsDTO)

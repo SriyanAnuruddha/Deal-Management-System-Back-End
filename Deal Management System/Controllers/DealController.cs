@@ -13,24 +13,17 @@ namespace Deal_Management_System.Controllers
     {
         [Authorize(Roles = "admin")]
         [HttpPost]
-        public async Task<IActionResult> AddDeal([FromForm] CreateDealDTO createDealDTO,[FromForm] IFormFile videoFile)
+        public async Task<IActionResult> AddDeal([FromForm] CreateDealDTO createDealDTO)
         {
           
-            if(videoFile == null || videoFile.Length <= 0)
-            {
-                return BadRequest("Please Insert a video!");
-            }
-            else
-            {
-                var result = await dealService.AddDeal(createDealDTO, videoFile);
+            var result = await dealService.AddDeal(createDealDTO);
 
-                if (result is null)
-                {
-                    return BadRequest("The deal is already exists!");
-                }
-
-                return Ok(result);
+            if (result is null)
+            {
+                return BadRequest("The deal is already exists!");
             }
+
+            return Ok(result);
   
         }
 

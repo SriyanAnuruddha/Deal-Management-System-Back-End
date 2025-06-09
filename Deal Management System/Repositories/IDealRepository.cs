@@ -1,11 +1,12 @@
 ﻿using Deal_Management_System.DTOs;
 using Deal_Management_System.Models;
+using System.Threading.Tasks;
 
 namespace Deal_Management_System.Repositories
 {
     public interface IDealRepository
     {
-        Task<Deal?> CreateDeal(CreateDealDTO createDealDTO);
+        Task<Deal?> CreateDeal(string name, string slug, string videoFileName, List<Guid> hotelIDs);
         Task<Deal?> AddHotelsToDeal(Guid dealId, List<Guid> hotelIds);
 
         Task<bool> DeleteDeal(Guid dealId);

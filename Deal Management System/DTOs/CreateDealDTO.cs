@@ -7,9 +7,7 @@ namespace Deal_Management_System.DTOs
     {
         public string Name { get; set; }
 
-        public string? Slug { get; set; }
-        public string? VideoURL { get; set; }
-
-        public List<Guid> HotelIDs { get; set; }
+        public IFormFile VideoFile { get; set; }
+        public List<Guid>? HotelIDs { get; set; }
     }
 }

@@ -10,10 +10,10 @@ namespace Deal_Management_System.Repositories
     public class DealRepository(AppDBContext context):IDealRepository
     {
 
-        public async Task<Deal?> CreateDeal(CreateDealDTO createDealDTO)
+        public async Task<Deal?> CreateDeal(string name,string slug,string videoFileName, List<Guid> hotelIDs)
         {
 
-            var exists = await context.Deals.FirstOrDefaultAsync(d => d.Slug == createDealDTO.Slug);
+            var exists = await context.Deals.FirstOrDefaultAsync(d => d.Slug == slug);
 
             if(exists != null) // check deal is already exists!
             {
@@ -22,19 +22,19 @@ namespace Deal_Management_System.Repositories
 
             Deal deal = new Deal
             {
-                Name = createDealDTO.Name,
-                Slug = createDealDTO.Slug,
-                VideoURL = createDealDTO.VideoURL
+                Name = name,
+                Slug = slug,
+                VideoURL = videoFileName
             };
 
             context.Deals.Add(deal);
             await context.SaveChangesAsync();
 
             //!NOTE this code needs to be changed
-            if(createDealDTO.HotelIDs.Count != 0 || createDealDTO.HotelIDs != null)
+            if(hotelIDs.Count != 0 || hotelIDs != null)
             {
 
-               return await AddHotelsToDeal(deal.Id, createDealDTO.HotelIDs);
+               return await AddHotelsToDeal(deal.Id, hotelIDs);
          
             }
 

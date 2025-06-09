@@ -8,7 +8,9 @@ namespace Deal_Management_System.Validations
     {
         public CreateDealDtoValidator()
         {
-            RuleFor(x => x.Name).NotEmpty();
+            RuleFor(x => x.Name).NotEmpty().WithMessage("deal name is required!");
+            RuleFor(x => x.VideoFile).NotNull().WithMessage("video file is required!"); ;
+
         }
     }
 }
