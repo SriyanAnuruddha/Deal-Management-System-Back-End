@@ -6,7 +6,7 @@ namespace Deal_Management_System.Repositories
 {
     public interface IDealRepository
     {
-        Task<Deal?> CreateDeal(string name, string slug, string videoFileName, List<Guid> hotelIDs);
+        Task<Deal?> CreateDeal(string name, string slug, string videoFileName);
         Task<Deal?> AddHotelsToDeal(Guid dealId, List<Guid> hotelIds);
 
         Task<bool> DeleteDeal(Guid dealId);

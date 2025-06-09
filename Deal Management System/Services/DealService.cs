@@ -15,7 +15,14 @@ namespace Deal_Management_System.Services
 
             await SaveVideo(createDealDTO.VideoFile);
 
-            return await dealRepository.CreateDeal(createDealDTO.Name,slug, videoFileName,createDealDTO.HotelIDs);
+            var deal = await dealRepository.CreateDeal(createDealDTO.Name,slug, videoFileName);
+
+            if ( deal != null && createDealDTO.HotelIDs != null)
+            {
+                deal = await dealRepository.AddHotelsToDeal(deal.Id, createDealDTO.HotelIDs);
+            }
+
+            return deal;
         }
 
         public async Task<Deal?> AddMoreHotels(Guid dealId, AssignHotelsDTO addHotelsDTO)

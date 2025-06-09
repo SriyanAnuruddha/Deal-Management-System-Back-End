@@ -10,7 +10,7 @@ namespace Deal_Management_System.Repositories
     public class DealRepository(AppDBContext context):IDealRepository
     {
 
-        public async Task<Deal?> CreateDeal(string name,string slug,string videoFileName, List<Guid> hotelIDs)
+        public async Task<Deal?> CreateDeal(string name,string slug,string videoFileName)
         {
 
             var exists = await context.Deals.FirstOrDefaultAsync(d => d.Slug == slug);
@@ -29,14 +29,6 @@ namespace Deal_Management_System.Repositories
 
             context.Deals.Add(deal);
             await context.SaveChangesAsync();
-
-            //!NOTE this code needs to be changed
-            if(hotelIDs.Count != 0 || hotelIDs != null)
-            {
-
-               return await AddHotelsToDeal(deal.Id, hotelIDs);
-         
-            }
 
             return deal;
         }
