@@ -127,5 +127,12 @@ namespace Deal_Management_System.Repositories
 
             return null;
         }
+
+        public async Task<List<Deal>?> RetriveDealsPerPage(int pageNumber)
+        {
+            var data = await context.Deals.OrderBy(d => d.Id).Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
+
+            return data;
+        }
     }
 }

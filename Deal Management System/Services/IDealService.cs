@@ -18,5 +18,7 @@ namespace Deal_Management_System.Services
         Task<Deal?> UpdateDealDetails(Guid dealId, UpdateDealDetailsDto dto);
 
         Task<FileStream?> GetVideo(Guid dealId);
+
+       Task<List<Deal>?> GetDealsPerPage(int pageNumber);
     }
 }

@@ -111,6 +111,18 @@ namespace Deal_Management_System.Controllers
             return File(videoStream, "video/mp4");
         }
 
+        [HttpGet("deals-per-page/{pageNumber}")]
+        public async Task<IActionResult> GetDealsPerPage(int pageNumber)
+        {
+            var deals = await dealService.GetDealsPerPage(pageNumber);
+
+            if (deals == null || deals.Count == 0)
+            {
+                return NotFound("no deals found!");
+            }
+
+            return Ok(deals);
+        }
 
     }
 

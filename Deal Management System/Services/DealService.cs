@@ -127,5 +127,10 @@ namespace Deal_Management_System.Services
             return slug;
         }
 
+
+        public async Task<List<Deal>?> GetDealsPerPage(int pageNumber)
+        {
+            return await dealRepository.RetriveDealsPerPage(pageNumber);
+        }
     }
 }
