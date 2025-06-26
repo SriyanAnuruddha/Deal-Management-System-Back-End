@@ -98,6 +98,20 @@ namespace Deal_Management_System.Controllers
             return Ok(result);
         }
 
+        [HttpGet("id/{dealId}")]
+        public async Task<IActionResult> GetDealDetailsById(Guid id)
+        {
+            var result = await dealService.GetDealDetailsById(id);
+
+            if (result is null)
+            {
+                return NotFound("deal doesn't exists!");
+            }
+
+            return Ok(result);
+        }
+
+
 
         [HttpGet("{dealId}/video")]
         public async Task<IActionResult> GetVideo(Guid dealId)

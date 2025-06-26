@@ -132,5 +132,10 @@ namespace Deal_Management_System.Services
         {
             return await dealRepository.RetriveDealsPerPage(pageNumber);
         }
+
+        public async Task<Deal?> GetDealDetailsById(Guid id)
+        {
+            return await dealRepository.GetDealDetailsById(id);
+        }
     }
 }

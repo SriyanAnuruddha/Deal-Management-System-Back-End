@@ -85,6 +85,13 @@ namespace Deal_Management_System.Repositories
                
         }
 
+        public async Task<Deal?> GetDealDetailsById(Guid id)
+        {
+            return await context.Deals.Where(d => d.Id == id)
+                .Include(d => d.Hotels).FirstOrDefaultAsync();
+
+        }
+
         public async Task<string?> GetVideoFileName(Guid dealId)
         {
             var deal= await context.Deals.FirstOrDefaultAsync(d => d.Id == dealId);
@@ -136,5 +143,6 @@ namespace Deal_Management_System.Repositories
 
             return data;
         }
+
     }
 }

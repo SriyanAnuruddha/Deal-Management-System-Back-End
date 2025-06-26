@@ -22,5 +22,7 @@ namespace Deal_Management_System.Repositories
         Task<Deal?> UpdateDealDetails(Guid dealId, string name, string slug, string fileName);
 
         Task<List<Deal>?> RetriveDealsPerPage(int pageNumber);
+
+        Task<Deal?> GetDealDetailsById(Guid id);
     }
 }

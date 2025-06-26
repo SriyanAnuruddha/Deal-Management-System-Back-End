@@ -20,5 +20,8 @@ namespace Deal_Management_System.Services
         Task<FileStream?> GetVideo(Guid dealId);
 
        Task<List<Deal>?> GetDealsPerPage(int pageNumber);
+
+
+        Task<Deal?> GetDealDetailsById(Guid id);
     }
 }
