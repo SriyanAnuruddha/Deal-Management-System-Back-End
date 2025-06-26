@@ -144,5 +144,35 @@ namespace Deal_Management_System.Repositories
             return data;
         }
 
+        public async Task<Deal?> UpdateDeal(Guid dealId,string slug,string name,string fileName,List<Hotel> hotels)
+        {
+            var deal = await context.Deals.SingleOrDefaultAsync(d => d.Id == dealId);
+
+            if (deal != null)
+            {
+                deal.Name = name;
+                deal.VideoURL = fileName;
+                deal.Slug = slug;
+
+                // var hotelsToAdd = await context.Hotels
+                //.Where(h => hotelIds.Contains(h.Id))
+                //.ToListAsync();
+
+                // foreach (var hotel in hotelsToAdd)
+                // {
+                //     if (!deal.Hotels.Any(h => h.Id == hotel.Id))
+                //     {
+                //         deal.Hotels.Add(hotel);
+                //     }
+                // }
+
+      
+
+                await context.SaveChangesAsync();
+                return deal;
+            }
+
+            return null;
+        }
     }
 }

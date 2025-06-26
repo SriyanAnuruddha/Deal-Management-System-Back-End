@@ -24,5 +24,9 @@ namespace Deal_Management_System.Repositories
         Task<List<Deal>?> RetriveDealsPerPage(int pageNumber);
 
         Task<Deal?> GetDealDetailsById(Guid id);
+
+        Task<Deal?> UpdateDeal(Guid dealId, string slug, string name, string fileName, List<Hotel> hotels);
+
+
     }
 }

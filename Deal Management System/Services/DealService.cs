@@ -137,5 +137,25 @@ namespace Deal_Management_System.Services
         {
             return await dealRepository.GetDealDetailsById(id);
         }
+
+        public async Task<Deal?> UpdateDeal(Guid dealId, UpdateDealDTO dto)
+        {
+            var videoFileName = await dealRepository.GetVideoFileName(dealId);
+            if (videoFileName != null)
+            {
+                DeleteVideo(videoFileName);
+            }
+
+            string newSlug = GenerateSlug(dto.Name);
+            var deal = await dealRepository.UpdateDeal(dealId, newSlug, dto.Name,dto.FileName, dto.Hotels );
+
+            if (deal != null && dto.VideoFile != null)
+            {
+                await SaveVideo(dto.VideoFile);
+                return deal;
+            }
+
+            return null;
+        }
     }
 }

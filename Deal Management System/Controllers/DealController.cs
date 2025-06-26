@@ -42,7 +42,7 @@ namespace Deal_Management_System.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = "admin")]
+        
         [HttpDelete("{dealId}")]
         public async Task<IActionResult> RemoveDeal(Guid dealId)
         {
@@ -99,9 +99,9 @@ namespace Deal_Management_System.Controllers
         }
 
         [HttpGet("id/{dealId}")]
-        public async Task<IActionResult> GetDealDetailsById(Guid id)
+        public async Task<IActionResult> GetDealDetailsById(Guid dealId)
         {
-            var result = await dealService.GetDealDetailsById(id);
+            var result = await dealService.GetDealDetailsById(dealId);
 
             if (result is null)
             {
@@ -137,6 +137,13 @@ namespace Deal_Management_System.Controllers
 
             return Ok(deals);
         }
+
+
+        //[HttpPatch("{dealid}")]
+        //public  Task<IActionResult> EditDealDetails(Guid dealid, [FromBody] UpdateDealDTO dto)
+        //{
+        //    return Ok();
+        //}
 
     }
 
