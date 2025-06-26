@@ -112,7 +112,7 @@ namespace Deal_Management_System.Controllers
         }
 
         [HttpGet("deals-per-page/{pageNumber}")]
-        public async Task<IActionResult> GetDealsPerPage(int pageNumber)
+        public async Task<IActionResult> GetDealsPerPage(int pageNumber,int limit=10)
         {
             var deals = await dealService.GetDealsPerPage(pageNumber);
 

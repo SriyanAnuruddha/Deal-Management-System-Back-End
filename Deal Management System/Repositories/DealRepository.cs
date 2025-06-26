@@ -15,7 +15,7 @@ namespace Deal_Management_System.Repositories
 
             var exists = await context.Deals.FirstOrDefaultAsync(d => d.Slug == slug);
 
-            if(exists != null) // check deal is already exists!
+            if(exists != null) // thorw already exists exception
             {
                 return null;
             }
@@ -39,7 +39,7 @@ namespace Deal_Management_System.Repositories
                .Include(d => d.Hotels)
                .FirstOrDefaultAsync(d => d.Id == dealId);
 
-            if (deal == null) return null; // if deal is not found return null
+            if (deal == null) return null; // throw not found exeception if deal is not found return null
 
             var hotelsToAdd = await context.Hotels
                 .Where(h => hotelIds.Contains(h.Id))
@@ -80,7 +80,8 @@ namespace Deal_Management_System.Repositories
 
         public async Task<Deal?> GetDealDetails(string slug)
         {
-            return await context.Deals.Where(d => d.Slug == slug).Include(d => d.Hotels).FirstOrDefaultAsync();
+            return await context.Deals.Where(d => d.Slug == slug)
+                .Include(d => d.Hotels).FirstOrDefaultAsync();
                
         }
 
@@ -130,7 +131,8 @@ namespace Deal_Management_System.Repositories
 
         public async Task<List<Deal>?> RetriveDealsPerPage(int pageNumber)
         {
-            var data = await context.Deals.OrderBy(d => d.Id).Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
+            var data = await context.Deals.OrderBy(d => d.Id).Skip((pageNumber - 1) * 2)
+                .Take(2).ToListAsync();
 
             return data;
         }
