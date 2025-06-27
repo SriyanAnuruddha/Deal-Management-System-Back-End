@@ -138,35 +138,42 @@ namespace Deal_Management_System.Repositories
 
         public async Task<List<Deal>?> RetriveDealsPerPage(int pageNumber)
         {
-            var data = await context.Deals.OrderBy(d => d.Id).Skip((pageNumber - 1) * 2)
-                .Take(2).ToListAsync();
+            var data = await context.Deals.OrderBy(d => d.Id).Skip((pageNumber - 1) * 10)
+                .Take(10).ToListAsync();
 
             return data;
         }
 
-        public async Task<Deal?> UpdateDeal(Guid dealId,string slug,string name,string fileName,List<Hotel> hotels)
+        public async Task<Deal?> UpdateDeal(Guid dealId,string slug,string name, List<HotelDTO> hotels, string fileName)
         {
-            var deal = await context.Deals.SingleOrDefaultAsync(d => d.Id == dealId);
+            var deal = await context.Deals.Include(d=> d.Hotels).SingleOrDefaultAsync(d => d.Id == dealId);
+            Console.WriteLine(hotels.ToString());
+
 
             if (deal != null)
             {
+
+                var associtedHotels = await context.Hotels.Where(h => h.Deals.Any(d => d.Id == dealId) ).ToListAsync();
+                context.Hotels.RemoveRange(associtedHotels);
+                deal.Hotels.Clear();
+                await context.SaveChangesAsync();
+
                 deal.Name = name;
-                deal.VideoURL = fileName;
                 deal.Slug = slug;
 
-                // var hotelsToAdd = await context.Hotels
-                //.Where(h => hotelIds.Contains(h.Id))
-                //.ToListAsync();
+                //add each hotel
+                foreach (var hotel in hotels)
+                {
+                    Hotel h = new Hotel
+                    {
+                        Name = hotel.Name,
+                        Amenities = hotel.Amenities,
+                        Rate = hotel.Rate
+                    };
 
-                // foreach (var hotel in hotelsToAdd)
-                // {
-                //     if (!deal.Hotels.Any(h => h.Id == hotel.Id))
-                //     {
-                //         deal.Hotels.Add(hotel);
-                //     }
-                // }
+                    deal.Hotels.Add(h);
+                }
 
-      
 
                 await context.SaveChangesAsync();
                 return deal;

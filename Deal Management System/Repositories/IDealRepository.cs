@@ -25,7 +25,7 @@ namespace Deal_Management_System.Repositories
 
         Task<Deal?> GetDealDetailsById(Guid id);
 
-        Task<Deal?> UpdateDeal(Guid dealId, string slug, string name, string fileName, List<Hotel> hotels);
+        Task<Deal?> UpdateDeal(Guid dealId, string slug, string name, List<HotelDTO> hotels, string fileName) ;
 
 
     }

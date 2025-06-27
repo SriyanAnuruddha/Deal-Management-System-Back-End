@@ -139,13 +139,22 @@ namespace Deal_Management_System.Controllers
         }
 
 
-        //[HttpPatch("{dealid}")]
-        //public  Task<IActionResult> EditDealDetails(Guid dealid, [FromBody] UpdateDealDTO dto)
-        //{
-        //    return Ok();
-        //}
+        [HttpPatch("{dealid}")]
+        public async Task<IActionResult> EditDealDetails(Guid dealid, [FromForm] UpdateDealDTO dto)
+        {
+            //Debug.WriteLine($" \n output is {dto.Hotels?[0].Name} \n ");
+
+            var deal = await dealService.UpdateDeal(dealid, dto);
+
+            if (deal == null)
+            {
+                return NotFound("Deal is not found");
+            }
+
+            return Ok(deal);
+
+        }
 
     }
-
 
 }

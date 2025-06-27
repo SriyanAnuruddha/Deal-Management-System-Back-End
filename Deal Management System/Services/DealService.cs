@@ -141,21 +141,20 @@ namespace Deal_Management_System.Services
         public async Task<Deal?> UpdateDeal(Guid dealId, UpdateDealDTO dto)
         {
             var videoFileName = await dealRepository.GetVideoFileName(dealId);
-            if (videoFileName != null)
+
+            // update video
+            if (dto.VideoFile != null)
             {
                 DeleteVideo(videoFileName);
+                await SaveVideo(dto.VideoFile);
+                videoFileName = dto.VideoFile.FileName;
             }
+          
 
             string newSlug = GenerateSlug(dto.Name);
-            var deal = await dealRepository.UpdateDeal(dealId, newSlug, dto.Name,dto.FileName, dto.Hotels );
+            var deal = await dealRepository.UpdateDeal(dealId, newSlug, dto.Name, dto.Hotels,videoFileName );
 
-            if (deal != null && dto.VideoFile != null)
-            {
-                await SaveVideo(dto.VideoFile);
-                return deal;
-            }
-
-            return null;
+            return deal;
         }
     }
 }
