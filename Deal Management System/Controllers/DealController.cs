@@ -144,6 +144,7 @@ namespace Deal_Management_System.Controllers
         {
             //Debug.WriteLine($" \n output is {dto.Hotels?[0].Name} \n ");
 
+
             var deal = await dealService.UpdateDeal(dealid, dto);
 
             if (deal == null)

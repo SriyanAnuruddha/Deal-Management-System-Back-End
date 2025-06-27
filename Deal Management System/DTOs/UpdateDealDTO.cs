@@ -6,6 +6,6 @@ namespace Deal_Management_System.DTOs
     {
         public string Name { get; set; }
         public IFormFile? VideoFile { get; set; }
-        public List<HotelDTO> Hotels { get; set; }
+        public string Hotels { get; set; }
     }
 }

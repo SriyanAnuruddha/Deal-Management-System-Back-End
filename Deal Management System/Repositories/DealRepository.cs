@@ -3,6 +3,7 @@ using Deal_Management_System.DTOs;
 using Deal_Management_System.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace Deal_Management_System.Repositories
@@ -144,7 +145,7 @@ namespace Deal_Management_System.Repositories
             return data;
         }
 
-        public async Task<Deal?> UpdateDeal(Guid dealId,string slug,string name, List<HotelDTO> hotels, string fileName)
+        public async Task<Deal?> UpdateDeal(Guid dealId,string slug,string name,string hotels, string fileName)
         {
             var deal = await context.Deals.Include(d=> d.Hotels).SingleOrDefaultAsync(d => d.Id == dealId);
             Console.WriteLine(hotels.ToString());
@@ -161,8 +162,9 @@ namespace Deal_Management_System.Repositories
                 deal.Name = name;
                 deal.Slug = slug;
 
-                //add each hotel
-                foreach (var hotel in hotels)
+                List<HotelDTO> newHotels = JsonSerializer.Deserialize<List<HotelDTO>>(hotels);
+
+                foreach (var hotel in newHotels)
                 {
                     Hotel h = new Hotel
                     {
