@@ -57,5 +57,12 @@ namespace Deal_Management_System.Repositories
             await context.SaveChangesAsync();
             return hotel;
         }
+
+        public async Task<List<Hotel>> GetNonRelatedHotels(Guid dealId)
+        {
+            var hotels = await context.Hotels.Where(h => h.Deals.All(d => d.Id != dealId)).ToListAsync();
+
+            return hotels;
+        }
     }
 }
