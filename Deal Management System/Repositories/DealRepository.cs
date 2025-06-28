@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace Deal_Management_System.Repositories
 {
-    public class DealRepository(AppDBContext context):IDealRepository
+    public class DealRepository(AppDBContext context)
     {
 
         public async Task<Deal?> CreateDeal(string name,string slug,string videoFileName)

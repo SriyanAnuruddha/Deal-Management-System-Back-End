@@ -9,8 +9,16 @@ namespace Deal_Management_System.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HotelsController(IHotelService hotelService) : ControllerBase
+    public class HotelsController : ControllerBase
     {
+
+        private HotelService hotelService;
+
+        public HotelsController(HotelService hotelService)
+        {
+           this.hotelService = hotelService;
+        }
+
 
         [Authorize(Roles = "admin")]
         [HttpPost]

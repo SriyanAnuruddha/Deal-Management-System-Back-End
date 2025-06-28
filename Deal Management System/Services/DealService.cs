@@ -6,8 +6,16 @@ using System.Text.RegularExpressions;
 
 namespace Deal_Management_System.Services
 {
-    public class DealService(IDealRepository dealRepository):IDealService
+    public class DealService
     {
+        private readonly DealRepository dealRepository;
+
+        public DealService(DealRepository dealRepository)
+        {
+            this.dealRepository = dealRepository;
+        }
+
+  
         public async Task<Deal?> AddDeal(CreateDealDTO createDealDTO)
         {
             string slug = GenerateSlug(createDealDTO.Name).ToString();
@@ -15,9 +23,9 @@ namespace Deal_Management_System.Services
 
             await SaveVideo(createDealDTO.VideoFile);
 
-            var deal = await dealRepository.CreateDeal(createDealDTO.Name,slug, videoFileName);
+            var deal = await dealRepository.CreateDeal(createDealDTO.Name, slug, videoFileName);
 
-            if ( deal != null && createDealDTO.HotelIDs != null)
+            if (deal != null && createDealDTO.HotelIDs != null)
             {
                 deal = await dealRepository.AddHotelsToDeal(deal.Id, createDealDTO.HotelIDs);
             }
@@ -27,13 +35,13 @@ namespace Deal_Management_System.Services
 
         public async Task<Deal?> AddMoreHotels(Guid dealId, AssignHotelsDTO addHotelsDTO)
         {
-            return await dealRepository.AddHotelsToDeal(dealId,addHotelsDTO.HotelIds);
+            return await dealRepository.AddHotelsToDeal(dealId, addHotelsDTO.HotelIds);
         }
 
         public async Task<bool> DeleteDeal(Guid dealId)
         {
             var videoFileName = await dealRepository.GetVideoFileName(dealId);
-            if(videoFileName != null)
+            if (videoFileName != null)
             {
                 DeleteVideo(videoFileName);
             }
@@ -41,7 +49,7 @@ namespace Deal_Management_System.Services
             return await dealRepository.DeleteDeal(dealId);
         }
 
-        public async Task<Deal?> UpdateDealDetails(Guid dealId,UpdateDealDetailsDto dto)
+        public async Task<Deal?> UpdateDealDetails(Guid dealId, UpdateDealDetailsDto dto)
         {
             var videoFileName = await dealRepository.GetVideoFileName(dealId);
             if (videoFileName != null)
@@ -52,10 +60,10 @@ namespace Deal_Management_System.Services
             string newSlug = GenerateSlug(dto.Name);
             var deal = await dealRepository.UpdateDealDetails(dealId, dto.Name, newSlug, dto.VideoFile.FileName);
 
-            if(deal != null)
+            if (deal != null)
             {
-               await SaveVideo(dto.VideoFile);
-               return deal;
+                await SaveVideo(dto.VideoFile);
+                return deal;
             }
 
             return null;
@@ -85,11 +93,9 @@ namespace Deal_Management_System.Services
             return await dealRepository.GetAllDeals();
         }
 
-        
         public async Task<Deal?> GetDealDetails(string slug)
         {
             return await dealRepository.GetDealDetails(slug);
-           
         }
 
         public async Task SaveVideo(IFormFile videoFile)
@@ -109,7 +115,6 @@ namespace Deal_Management_System.Services
             }
         }
 
-
         public void DeleteVideo(string fileName)
         {
             var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "Videos");
@@ -119,14 +124,12 @@ namespace Deal_Management_System.Services
             File.Delete(fullPath);
         }
 
-
         public string GenerateSlug(string name)
         {
             string slug = Regex.Replace(name.ToLower().Trim(), @"[^a-z0-9\s-]", "")
                                 .Replace(" ", "-");
             return slug;
         }
-
 
         public async Task<List<Deal>?> GetDealsPerPage(int pageNumber)
         {
@@ -142,17 +145,16 @@ namespace Deal_Management_System.Services
         {
             var videoFileName = await dealRepository.GetVideoFileName(dealId);
 
-            // update video
+            // update video  
             if (dto.VideoFile != null)
             {
                 DeleteVideo(videoFileName);
                 await SaveVideo(dto.VideoFile);
                 videoFileName = dto.VideoFile.FileName;
             }
-          
 
             string newSlug = GenerateSlug(dto.Name);
-            var deal = await dealRepository.UpdateDeal(dealId, newSlug, dto.Name, dto.Hotels,videoFileName );
+            var deal = await dealRepository.UpdateDeal(dealId, newSlug, dto.Name, dto.Hotels, videoFileName);
 
             return deal;
         }

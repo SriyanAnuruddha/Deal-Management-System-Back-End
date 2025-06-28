@@ -4,8 +4,17 @@ using Deal_Management_System.Repositories;
 
 namespace Deal_Management_System.Services
 {
-    public class HotelService(IHotelRepository hotelRepository) : IHotelService
+    public class HotelService
     {
+
+        private readonly HotelRepository hotelRepository;
+
+        public HotelService(HotelRepository hotelRepository)
+        {
+            this.hotelRepository = hotelRepository;
+        }
+
+
         public async Task<Hotel?> AddHotel(HotelDTO hotelDTO)
         {
             return await hotelRepository.CreateHotel(hotelDTO);

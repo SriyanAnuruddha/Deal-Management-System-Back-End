@@ -38,13 +38,6 @@ builder.Services.AddDbContext<AppDBContext>(options => options.UseSqlServer(buil
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 
-builder.Services.AddScoped<IHotelService, HotelService>();
-builder.Services.AddScoped<IHotelRepository, HotelRepository>();
-
-builder.Services.AddScoped<IDealService, DealService>();
-builder.Services.AddScoped<IDealRepository, DealRepository>();
-
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -61,6 +54,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+builder.Services.AddScoped<DealService>();
+builder.Services.AddScoped<DealRepository>();
+
+builder.Services.AddScoped<HotelService>();     
+builder.Services.AddScoped<HotelRepository>();
 
 
 var app = builder.Build();

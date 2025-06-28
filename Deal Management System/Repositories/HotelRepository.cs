@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Deal_Management_System.Repositories
 {
-    public class HotelRepository(AppDBContext context) : IHotelRepository
+    public class HotelRepository(AppDBContext context) 
     {
         public async Task<Hotel> CreateHotel(HotelDTO hotelDTO)
         {

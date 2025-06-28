@@ -9,8 +9,17 @@ namespace Deal_Management_System.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DealController(IDealService dealService) : ControllerBase
+    public class DealController : ControllerBase
     {
+
+        private readonly DealService dealService;
+
+        public DealController(DealService dealService)
+        {
+            this.dealService = dealService;
+        }
+
+
         [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> AddDeal([FromForm] CreateDealDTO createDealDTO)
