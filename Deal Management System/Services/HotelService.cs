@@ -14,6 +14,10 @@ namespace Deal_Management_System.Services
             this.hotelRepository = hotelRepository;
         }
 
+        public async Task<Hotel?> GetHotelDetails(Guid hotelId)
+        {
+            return await hotelRepository.GetHotelDetails(hotelId);
+        }
 
         public async Task<Hotel?> AddHotel(HotelDTO hotelDTO)
         {
@@ -33,6 +37,17 @@ namespace Deal_Management_System.Services
         public async Task<Hotel?> UpdateHotelDetails(Guid id,HotelDTO hotelDTO)
         {
             return await hotelRepository.UpdateHotelDetails(id, hotelDTO);
+        }
+
+
+        public async Task<List<Hotel>> GetNonRelatedHotels(Guid dealId)
+        {
+            return await hotelRepository.GetNonRelatedHotels(dealId);
+        }
+
+        public async Task<bool> RemoveAssociatedHotelFromDeal(Guid dealId, Guid hotelId)
+        {
+            return await hotelRepository.RemoveHotelFromDeal(dealId, hotelId);
         }
     }
 }

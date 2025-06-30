@@ -3,6 +3,6 @@
     public class UpdateDealDetailsDto
     {
         public string Name { get; set; }
-        public IFormFile VideoFile { get; set; }
+        public IFormFile? VideoFile { get; set; }
     }
 }

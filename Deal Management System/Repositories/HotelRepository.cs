@@ -7,6 +7,13 @@ namespace Deal_Management_System.Repositories
 {
     public class HotelRepository(AppDBContext context) 
     {
+
+        public async Task<Hotel?> GetHotelDetails(Guid hotelId)
+        {
+            var hotel = await context.Hotels.Where(h => h.Id == hotelId).FirstOrDefaultAsync();
+
+            return hotel;
+        }
         public async Task<Hotel> CreateHotel(HotelDTO hotelDTO)
         {
             Hotel hotel = new Hotel();
@@ -19,6 +26,7 @@ namespace Deal_Management_System.Repositories
             await context.SaveChangesAsync();
             return hotel;
         }
+        
 
         public async Task<bool> DeleteHotel(Guid id)
         {
@@ -63,6 +71,22 @@ namespace Deal_Management_System.Repositories
             var hotels = await context.Hotels.Where(h => h.Deals.All(d => d.Id != dealId)).ToListAsync();
 
             return hotels;
+        }
+
+        public async Task<bool> RemoveHotelFromDeal(Guid dealId,Guid hotelId)
+        {
+            var deal = await context.Deals.Include(d => d.Hotels).FirstOrDefaultAsync();
+            var hotel = await context.Hotels.Where(h => h.Id == hotelId).FirstOrDefaultAsync();
+
+            if (deal!=null && hotel != null)
+            {
+
+                deal.Hotels.Remove(hotel);
+                await context.SaveChangesAsync();
+                return true;
+
+            }
+            return false;
         }
     }
 }

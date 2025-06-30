@@ -19,8 +19,20 @@ namespace Deal_Management_System.Controllers
            this.hotelService = hotelService;
         }
 
+        [HttpGet("{hotelId}")]
+        public async Task<ActionResult<Hotel>> GetHotelDetails(Guid hotelId)
+        {
+            var response = await hotelService.GetHotelDetails(hotelId);
 
-        [Authorize(Roles = "admin")]
+            if (response != null)
+            {
+                return Ok(response);
+            }
+            return NotFound(new { message ="Hotel is not found!" });
+
+        }
+
+        //[Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<ActionResult<Hotel>> AddHotel(HotelDTO hotelDTO)
         {
@@ -34,7 +46,7 @@ namespace Deal_Management_System.Controllers
 
         }
 
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveHotel(Guid id)
         {
@@ -42,9 +54,9 @@ namespace Deal_Management_System.Controllers
 
             if (response is true)
             {
-                return Ok("hotel removed successfully!");
+                return Ok(new{ message = "hotel removed successfully!" });
             }
-            return BadRequest("invalid hotel id!");
+            return BadRequest(new { message = "invalid hotel id!" });
         }
 
 
@@ -62,7 +74,7 @@ namespace Deal_Management_System.Controllers
         }
 
 
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateHotelDetails(Guid id,[FromBody] HotelDTO hotelDTO)
         {
@@ -76,6 +88,34 @@ namespace Deal_Management_System.Controllers
             return Ok(result);
         }
 
+        [HttpGet("non-related-hotels/{dealID}")]
+        public async Task<ActionResult> UpdateHotelDetails(Guid dealID)
+        {
+            var result = await hotelService.GetNonRelatedHotels(dealID);
+
+            if (result is null)
+            {
+                return NotFound("Deak id is invalid!");
+            }
+
+            return Ok(result);
+        }
+
+        [HttpDelete("remove-hotel/{dealId}/{hotelId}")]
+        public async Task<ActionResult> RemoveHotelFromDeal(Guid dealId, Guid hotelId)
+        {
+            bool result = await hotelService.RemoveAssociatedHotelFromDeal(dealId, hotelId);
+
+            if (result)
+            {
+                return Ok(new { message = "Hotel successfully removed!" });
+
+            }
+            else
+            {
+                return NotFound(new { error = "can't removed hotel" });
+            }
+        }
 
 
     }

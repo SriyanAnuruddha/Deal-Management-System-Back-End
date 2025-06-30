@@ -131,9 +131,9 @@ namespace Deal_Management_System.Services
             return slug;
         }
 
-        public async Task<List<Deal>?> GetDealsPerPage(int pageNumber)
+        public async Task<List<Deal>?> GetDealsPerPage(int pageNumber,int limit)
         {
-            return await dealRepository.RetriveDealsPerPage(pageNumber);
+            return await dealRepository.RetriveDealsPerPage(pageNumber, limit);
         }
 
         public async Task<Deal?> GetDealDetailsById(Guid id)
@@ -158,5 +158,8 @@ namespace Deal_Management_System.Services
 
             return deal;
         }
+
+
+        
     }
 }

@@ -20,7 +20,7 @@ namespace Deal_Management_System.Controllers
         }
 
 
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> AddDeal([FromForm] CreateDealDTO createDealDTO)
         {
@@ -37,15 +37,15 @@ namespace Deal_Management_System.Controllers
         }
 
 
-        [Authorize(Roles = "admin")]
-        [HttpPut("{dealId}/addhotels")]
+        //[Authorize(Roles = "admin")]
+        [HttpPut("assign-hotels/{dealId}")]
         public async Task<IActionResult> AddHotelsToDeal(Guid dealId,AssignHotelsDTO addHotelsDTO)
         {
             var result = await dealService.AddMoreHotels(dealId, addHotelsDTO);
 
             if(result is null)
             {
-                return NotFound("Deal Id is invalid!");
+                return NotFound(new { message="Deal Id is invalid!"});
             }
 
             return Ok(result);
@@ -65,7 +65,7 @@ namespace Deal_Management_System.Controllers
             return Ok("Deal is succesfully deleted!");
         }
 
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [HttpPut("{dealId}")]
         public async Task<IActionResult> UpdateDealDetails(Guid dealId,[FromForm] UpdateDealDetailsDto dto)
         {
@@ -137,7 +137,7 @@ namespace Deal_Management_System.Controllers
         [HttpGet("deals-per-page/{pageNumber}")]
         public async Task<IActionResult> GetDealsPerPage(int pageNumber,int limit=10)
         {
-            var deals = await dealService.GetDealsPerPage(pageNumber);
+            var deals = await dealService.GetDealsPerPage(pageNumber,limit);
 
             if (deals == null || deals.Count == 0)
             {

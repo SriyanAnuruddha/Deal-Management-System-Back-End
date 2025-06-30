@@ -137,10 +137,10 @@ namespace Deal_Management_System.Repositories
             return null;
         }
 
-        public async Task<List<Deal>?> RetriveDealsPerPage(int pageNumber)
+        public async Task<List<Deal>?> RetriveDealsPerPage(int pageNumber,int limit)
         {
-            var data = await context.Deals.OrderBy(d => d.Id).Skip((pageNumber - 1) * 10)
-                .Take(10).ToListAsync();
+            var data = await context.Deals.OrderBy(d => d.Id).Skip((pageNumber - 1) * limit)
+                .Take(limit).ToListAsync();
 
             return data;
         }
