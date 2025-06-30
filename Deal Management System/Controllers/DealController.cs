@@ -59,10 +59,10 @@ namespace Deal_Management_System.Controllers
 
             if (result is false)
             {
-                return NotFound("Deal Id is invalid!");
+                return NotFound(new { error ="Deal Id is invalid!" });
             }
 
-            return Ok("Deal is succesfully deleted!");
+            return Ok(new { message = "Deal succesfully deleted!" });
         }
 
         //[Authorize(Roles = "admin")]
@@ -134,7 +134,9 @@ namespace Deal_Management_System.Controllers
             return File(videoStream, "video/mp4");
         }
 
-        [HttpGet("deals-per-page/{pageNumber}")]
+        //[HttpGet("deals-per-page/{pageNumber}")]
+        [HttpGet]
+        [Route("/api/deals-per-page/{pageNumber}")]
         public async Task<IActionResult> GetDealsPerPage(int pageNumber,int limit=10)
         {
             var deals = await dealService.GetDealsPerPage(pageNumber,limit);
